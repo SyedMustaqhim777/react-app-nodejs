@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+  <script type="text/javascript">
+    doDelete = function (id) {
+      $.ajax({
+        url: "/api/menu",
+        method: 'Delete',
+        data: { id: id },
+        success: function (response) {
+          if (response.result == "success") {
+            location = "/menu";
+          } else {
+            alert(response.msg);
+          }
+        }
+      });
+    }
+    doEdit = function (identifier) {
+      location = "/menu/edit/" + identifier;
+    }
+    doSearch = function(){
+        let key = "name"
+        let value = $("#queryText").val();
+
+        location = '/menu/search/'+key+"/"+value
+    }
+  </script>
+  <h1><%= title %></h1>
+  <button onclick="location = '/home'">Home</button> &nbsp;| &nbsp;
+  <button onclick="location = '/menu'">menu</button> &nbsp;| &nbsp;
+  <button onclick="location = '/about'">About</button> &nbsp;| &nbsp;
+  <button onclick="location = '/login'">logout</button>
+  <hr />
+
+  <h4>no. of items: <%= menu.length %> Items<h4>
+      <button onclick="location='/menu/add';">Add item</button>
+
+      <input id="queryText" type="text" name="" placeholder="Enter Search Text" />
+
+      <!-- <select name="queryBy" id="queryBy">
+        <option value="id">ID</option>
+        <option value="name">Name</option>
+        <option value="email">Email</option>
+        <option value="phone">Phone</option>
+      </select> -->
+      <button onclick="doSearch()">Search</button>
+
+      <br /><br />
+
+      <div class="page-data" style="font-size: 14px; font-weight: normal;">
+        <div class="data-table">
+          <table border="1" cellpadding="7" cellspacing="7">
+            <tr>
+              <th width="20px">No.</th>
+              <th width="250px">Name</th>
+              <th width="220px">Description</th>
+              <th width="100px">Price (Rs) </th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+            <tbody>
+              <% if(menu.length){for(var i = 0;i < menu.length;i++) { %>
+              <tr>
+                <td><%=menu[i].id%></td>
+                <td><%=menu[i].name%></td>
+                <td><%=menu[i].description%></td>
+                <td><%=menu[i].price%></td>
+                <td><button onclick="doEdit('<%=menu[i].id%>');">Edit</button></td>
+                <td><button onclick="doDelete('<%=menu[i].id %>');">Delete</button></td>
+              </tr>
+              <% }
+             }else{ %>
+              <tr>
+                <td colspan="7">No item found</td>
+              </tr>
+              <% } %>
+
+            </tbody>
+          </table>
+</body>
+
+</html>

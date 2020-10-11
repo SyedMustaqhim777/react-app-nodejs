@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+
+  <body>
+    <script type="text/javascript">
+      doLogin = () => {
+        let emailInput = $("#email").val();
+        let passwordInput = $("#password").val();
+        if (email == "") {
+          alert("Email cannot be blank.");
+        } else {
+          $.ajax({
+            url: "/users/login",
+            method: "POST",
+            data: { email: emailInput, password: passwordInput },
+            success: function (response) {
+              if (response.result == "success") {
+                location = "/menu";
+              } else {
+                alert(response.msg);
+              }
+            },
+          });
+        }
+      };
+    </script>
+    <script
+      type="text/javascript"
+      src="https:code.jquery.com/jquery-3.5.1.min.js"
+    ></script>
+    <h1><%= title %></h1>
+    <div id="login">
+      <input
+        id="email"
+        type="text"
+        name=""
+        placeholder="Enter email"
+      /><br /><br />
+      <input
+        id="password"
+        type="password"
+        name=""
+        placeholder="Enter password"
+      />
+      <br /><br />
+      <input onclick="doLogin();" type="button" name="" value="Submit" />
+    </div>
+  </body>
+</html>
